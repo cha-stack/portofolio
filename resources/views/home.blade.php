@@ -11,6 +11,20 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         .font-display { font-family: 'Cormorant Garamond', serif; }
+        .nav-underline {
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            height: 2px;
+            width: 100%;
+            background-color: #E8785A;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        .nav-link.active .nav-underline {
+            transform: scaleX(1);
+        }
     </style>
 </head>
 <body class="bg-[#FAF5EF] text-[#2B2440]">
@@ -20,15 +34,36 @@
         <span class="font-display font-bold text-lg">✦ {{ $nama }} Studio</span>
 
         {{-- Menu desktop --}}
-        <div class="hidden sm:flex gap-8 text-sm font-medium">
-            <a href="#home" class="hover:text-[#E8785A] transition">Home</a>
-            <a href="#about" class="hover:text-[#E8785A] transition">About</a>
-            <a href="#education" class="hover:text-[#E8785A] transition">Education</a>
-            <a href="#skills" class="hover:text-[#E8785A] transition">Skills</a>
-            <a href="#projects" class="hover:text-[#E8785A] transition">Projects</a>
-            <a href="#certificates" class="hover:text-[#E8785A] transition">Certificates</a>
-            <a href="#contact" class="hover:text-[#E8785A] transition">Contact</a>
-        </div>
+            <div class="hidden sm:flex gap-8 text-sm font-medium">
+        <a href="#home" class="nav-link relative pb-1 hover:text-[#E8785A] transition">
+            Home
+            <span class="nav-underline"></span>
+        </a>
+        <a href="#about" class="nav-link relative pb-1 hover:text-[#E8785A] transition">
+            About
+            <span class="nav-underline"></span>
+        </a>
+        <a href="#education" class="nav-link relative pb-1 hover:text-[#E8785A] transition">
+            Education
+            <span class="nav-underline"></span>
+        </a>
+        <a href="#skills" class="nav-link relative pb-1 hover:text-[#E8785A] transition">
+            Skills & GPA
+            <span class="nav-underline"></span>
+        </a>
+        <a href="#projects" class="nav-link relative pb-1 hover:text-[#E8785A] transition">
+            Projects
+            <span class="nav-underline"></span>
+        </a>
+        <a href="#certificates" class="nav-link relative pb-1 hover:text-[#E8785A] transition">
+            Certificates
+            <span class="nav-underline"></span>
+        </a>
+        <a href="#contact" class="nav-link relative pb-1 hover:text-[#E8785A] transition">
+            Contact
+            <span class="nav-underline"></span>
+        </a>
+             </div>
 
         {{-- Tombol hamburger (mobile) --}}
         <button id="menuBtn" class="sm:hidden text-[#2B2440]">
@@ -43,7 +78,7 @@
         <a href="#home" class="block hover:text-[#E8785A]">Home</a>
         <a href="#about" class="block hover:text-[#E8785A]">About</a>
         <a href="#education" class="block hover:text-[#E8785A]">Education</a>
-        <a href="#skills" class="block hover:text-[#E8785A]">Skills</a>
+        <a href="#skills" class="block hover:text-[#E8785A]">Skills & GPA</a>
         <a href="#projects" class="block hover:text-[#E8785A]">Projects</a>
         <a href="#certificates" class="block hover:text-[#E8785A]">Certificates</a>
         <a href="#contact" class="block hover:text-[#E8785A]">Contact</a>
@@ -375,5 +410,28 @@
         });
     </script>
 
+
+<script>
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const id = entry.target.getAttribute('id');
+            const link = document.querySelector(`.nav-link[href="#${id}"]`);
+            if (!link) return;
+
+            if (entry.isIntersecting) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            }
+        });
+    }, {
+        rootMargin: '-40% 0px -55% 0px', // titik "aktif" di tengah viewport
+        threshold: 0
+    });
+
+    sections.forEach(section => observer.observe(section));
+</script>
 </body>
 </html>     
